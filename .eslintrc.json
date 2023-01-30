@@ -1,0 +1,63 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "rules": {
+    // 리액트 17버전 이후는 jsx 문법 사용시 React를 import 하지 않아도 되어서 off
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-uses-react": ["off"],
+    // props 구조분해할당 하기 위해 off
+    "react/jsx-props-no-spreading": "off",
+    // 컴포넌트 생성시 화살표함수를 이용하도록
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": "arrow-function" }
+    ],
+    // 함수 밖에서 선언된 변수와 같은 이름의 변수를 사용하기 위해
+    "no-shadow": ["warn"],
+    // export default 뿐 아니라 named export 방식도 사용할 수 있게 off
+    "import/prefer-default-export": "off",
+    // 사용되지 않는 변수 오류 off
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    // interface 안이 비었을 때 생기는 오류 off
+    "@typescript-eslint/no-empty-interface": "off",
+    // type only import
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports"
+      }
+    ],
+    // no-param-reassign
+    "no-param-reassign": "off",
+    // 타입 선언 아래에서 끌어올리기 가능하게
+    "@typescript-eslint/no-use-before-define": "off",
+    // props에 디폴트 지정 끄기
+    "react/require-default-props": "off",
+    // 컴포넌트 재사용으로 인해 id의 유일성을 보장하지 못하기 때문에 추가적인 옵션
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "labelAttributes": ["htmlFor"]
+      }
+    ]
+  }
+}
