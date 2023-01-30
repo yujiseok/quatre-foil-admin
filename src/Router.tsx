@@ -1,4 +1,5 @@
 import Login from "@pages/Login";
+import SignUp from "@pages/SignUp";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const Router = () => {
@@ -6,6 +7,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route index path="/" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );
