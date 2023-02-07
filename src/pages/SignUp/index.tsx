@@ -20,7 +20,7 @@ const SignUp = () => {
 
   return (
     <main className="w-full h-screen mx-auto max-w-screen-sm px-4 flex flex-col gap-4 justify-center">
-      <Heading>관리자 계정 생성</Heading>
+      <Heading className="text-center">관리자 계정 생성</Heading>
       <Form>
         <Input
           type="email"
@@ -53,7 +53,7 @@ const SignUp = () => {
         </button>
         <div className="font-light mt-2 text-sm">
           계정이 있으신가요?{" "}
-          <Link to="/" className="font-semibold underline">
+          <Link to="/login" className="font-semibold underline">
             로그인하러 가기
           </Link>
         </div>

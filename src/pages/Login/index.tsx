@@ -19,7 +19,7 @@ const Login = () => {
   };
   return (
     <main className="w-full h-screen mx-auto max-w-screen-sm px-4 flex flex-col gap-4 justify-center">
-      <Heading>로그인</Heading>
+      <Heading className="text-center">로그인</Heading>
       <Form>
         <Input
           type="email"

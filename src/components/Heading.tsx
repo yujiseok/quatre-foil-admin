@@ -1,9 +1,10 @@
-import type { ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
+  className?: string;
 }
-const Heading = ({ children }: Props) => {
-  return <h2 className="text-center font-semibold text-2xl">{children}</h2>;
+const Heading = ({ children, className }: Props) => {
+  return <h2 className={`${className} font-semibold text-2xl`}>{children}</h2>;
 };
 export default Heading;
