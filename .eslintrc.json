@@ -58,6 +58,7 @@
       {
         "labelAttributes": ["htmlFor"]
       }
-    ]
+    ],
+    "consistent-return": "off"
   }
 }
