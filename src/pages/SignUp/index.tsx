@@ -19,7 +19,7 @@ const SignUp = () => {
   };
 
   return (
-    <main className="w-full h-screen mx-auto max-w-screen-sm px-4 flex flex-col gap-4 justify-center">
+    <main className="mx-auto flex h-screen w-full max-w-screen-sm flex-col justify-center gap-4 px-4">
       <Heading className="text-center">관리자 계정 생성</Heading>
       <Form>
         <Input
@@ -47,11 +47,11 @@ const SignUp = () => {
         />
         <button
           type="submit"
-          className="px-4 py-2 rounded bg-rose-300 text-white mr-4 font-semibold"
+          className="mr-4 rounded bg-rose-300 px-4 py-2 font-semibold text-white"
         >
           계정생성
         </button>
-        <div className="font-light mt-2 text-sm">
+        <div className="mt-2 text-sm font-light">
           계정이 있으신가요?{" "}
           <Link to="/login" className="font-semibold underline">
             로그인하러 가기

@@ -5,7 +5,7 @@ interface Props {
 }
 const Form = ({ children }: Props) => {
   return (
-    <form className="w-96 mx-auto border-2 border-rose-300 px-6 py-10 rounded shadow-lg bg-white">
+    <form className="mx-auto w-96 rounded border-2 border-rose-300 bg-white px-6 py-10 shadow-lg">
       {children}
     </form>
   );

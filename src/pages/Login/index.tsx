@@ -18,7 +18,7 @@ const Login = () => {
     setUser({ ...user, [name]: value });
   };
   return (
-    <main className="w-full h-screen mx-auto max-w-screen-sm px-4 flex flex-col gap-4 justify-center">
+    <main className="mx-auto flex h-screen w-full max-w-screen-sm flex-col justify-center gap-4 px-4">
       <Heading className="text-center">로그인</Heading>
       <Form>
         <Input
@@ -38,13 +38,13 @@ const Login = () => {
         />
         <button
           type="submit"
-          className="px-4 py-2 rounded bg-rose-300 text-white mr-4 font-semibold"
+          className="mr-4 rounded bg-rose-300 px-4 py-2 font-semibold text-white"
         >
           로그인
         </button>
         <Link
           to="/signup"
-          className="px-4 py-2 rounded border-rose-300 border text-rose-400 font-semibold"
+          className="rounded border border-rose-300 px-4 py-2 font-semibold text-rose-400"
         >
           관리자 계정 생성
         </Link>

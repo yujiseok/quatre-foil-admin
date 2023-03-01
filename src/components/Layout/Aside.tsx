@@ -11,7 +11,7 @@ const LIST = [
 
 const Aside = (props: Props) => {
   return (
-    <aside className="h-full border-2 p-4 rounded w-40">
+    <aside className="w-40 rounded border-2 border-rose-200 p-4">
       <ul>
         {LIST.map((item) => (
           <li key={item.title}>
