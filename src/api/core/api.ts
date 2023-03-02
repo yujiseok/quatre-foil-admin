@@ -10,18 +10,19 @@ const axiosConfig: AxiosRequestConfig = {
     masterKey: true,
   },
 };
-// const { accessToken } = JSON.parse(
-//   JSON.parse(localStorage.getItem("persist:root") as string).auth,
-// );
+
 export const client = axios.create(axiosConfig);
 
-// client.interceptors.request.use((config) => {
-//   console.log(accessToken);
-//   if (!config.headers) return config;
+client.interceptors.request.use((config) => {
+  const { accessToken } = JSON.parse(
+    JSON.parse(localStorage.getItem("persist:root") as string).auth,
+  );
 
-//   if (accessToken !== null) {
-//     config.headers.Authorization = `Bearer ${accessToken}`;
-//   }
+  if (!config.headers) return config;
 
-//   return config;
-// });
+  if (accessToken !== null) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  return config;
+});

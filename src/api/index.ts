@@ -5,7 +5,7 @@ import { client } from "./core/api";
 // 제품
 
 // 제품 목록 조회
-export interface Product {
+export interface IProduct {
   id: string; // 제품 ID
   title: string; // 제품 이름
   price: number; // 제품 가격
@@ -16,11 +16,16 @@ export interface Product {
 }
 
 export const getProducts = async () => {
-  const { data } = await client.get<Product[]>("/products");
+  const { data } = await client.get<IProduct[]>("/products");
 
   return data;
 };
 
+export const getProduct = async (id: string) => {
+  const { data } = await client.get<IProduct>(`/products/${id}`);
+
+  return data;
+};
 // 거래 내역 조회
 interface TransactionDetail {
   // 거래 내역 정보
@@ -63,6 +68,16 @@ export const getTransactionDetail = async () => {
 // 제품 추가
 
 interface AddFunc {
+  (
+    title?: string,
+    price?: number,
+    description?: string,
+    tags?: string[],
+    thumbnailBase64?: string,
+    photoBase64?: string,
+  ): AxiosPromise<AddProductResponse>;
+}
+interface EditFunc {
   (
     id?: string,
     title?: string,
@@ -108,7 +123,7 @@ export const addProduct: AddFunc = async (
   return data;
 };
 
-export const editProduct: AddFunc = async (
+export const editProduct: EditFunc = async (
   id,
   title,
   price,

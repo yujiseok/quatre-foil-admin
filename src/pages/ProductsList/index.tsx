@@ -1,13 +1,13 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import type { Product } from "api";
+import type { IProduct } from "api";
 import { getProducts } from "api";
 // import { getProducts } from "api";
 
 interface Props {}
 const ProductsList = (props: Props) => {
   const queryClient = useQueryClient();
-  const { data: products } = useQuery<Product[]>({
+  const { data: products } = useQuery<IProduct[]>({
     queryKey: ["products"],
     queryFn: getProducts,
   });
