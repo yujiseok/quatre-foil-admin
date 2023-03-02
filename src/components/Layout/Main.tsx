@@ -6,10 +6,16 @@ interface Props {}
 const Main = (props: Props) => {
   return (
     <main className="mx-auto h-full max-w-7xl px-4">
-      <header>
-        <Heading className="mt-8">QUATRE FOIL Admin</Heading>
-        <div>
-          <img src="" alt="" />
+      <header className="mt-4 flex h-14 items-center justify-between">
+        <Heading>QUATRE FOIL Admin</Heading>
+        <div className="flex items-center gap-2">
+          <div className="h-12 w-12 overflow-hidden rounded-full">
+            <img
+              className="h-full w-full"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+              alt=""
+            />
+          </div>
           <div>유저이름</div>
         </div>
       </header>

@@ -53,7 +53,7 @@ const SignUp = () => {
         </button>
         <div className="mt-2 text-sm font-light">
           계정이 있으신가요?{" "}
-          <Link to="/login" className="font-semibold underline">
+          <Link to="/signin" className="font-semibold underline">
             로그인하러 가기
           </Link>
         </div>
