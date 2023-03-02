@@ -59,6 +59,7 @@
         "labelAttributes": ["htmlFor"]
       }
     ],
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }
