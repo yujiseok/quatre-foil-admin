@@ -5,7 +5,7 @@ import type { ChangeEvent } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const SignIn = () => {
   const [user, setUser] = useState({
     displayName: "",
     email: "",
@@ -52,4 +52,4 @@ const Login = () => {
     </main>
   );
 };
-export default Login;
+export default SignIn;

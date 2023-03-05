@@ -21,6 +21,23 @@ export const getProducts = async () => {
   return data;
 };
 
+export interface IProductDetail {
+  // 제품의 상세 내용
+  id: string; // 제품 ID
+  title: string; // 제품 이름
+  price: number; // 제품 가격
+  description: string; // 제품 상세 설명
+  tags: string[]; // 제품 태그
+  thumbnail: string | null; // 제품 썸네일 이미지(URL)
+  photo: string | null; // 제품 상세 이미지(URL)
+  isSoldOut: boolean; // 제품 매진 여부
+}
+
+export const getProduct = async (id: string) => {
+  const { data } = await client.get<IProductDetail>(`/products/${id}`);
+
+  return data;
+};
 // 거래 내역 조회
 interface TransactionDetail {
   // 거래 내역 정보
@@ -64,6 +81,16 @@ export const getTransactionDetail = async () => {
 
 interface AddFunc {
   (
+    title?: string,
+    price?: number,
+    description?: string,
+    tags?: string[],
+    thumbnailBase64?: string,
+    photoBase64?: string,
+  ): AxiosPromise<AddProductResponse>;
+}
+interface EditFunc {
+  (
     id?: string,
     title?: string,
     price?: number,
@@ -73,7 +100,7 @@ interface AddFunc {
     photoBase64?: string,
   ): AxiosPromise<AddProductResponse>;
 }
-interface AddProductResponse {
+export interface AddProductResponse {
   // 추가한 제품의 상세 내용
   id: string; // 제품 ID
   title: string; // 제품 이름
@@ -108,7 +135,7 @@ export const addProduct: AddFunc = async (
   return data;
 };
 
-export const editProduct: AddFunc = async (
+export const editProduct: EditFunc = async (
   id,
   title,
   price,
