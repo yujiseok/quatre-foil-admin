@@ -1,5 +1,5 @@
 import Heading from "@components/Heading";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Aside from "./Aside";
 
 interface Props {}
@@ -7,7 +7,9 @@ const Main = (props: Props) => {
   return (
     <main className="mx-auto h-full max-w-7xl px-4">
       <header className="mt-4 flex h-14 items-center justify-between">
-        <Heading>QUATRE FOIL Admin</Heading>
+        <Heading>
+          <Link to="/">QUATRE FOIL Admin</Link>
+        </Heading>
         <div className="flex items-center gap-2">
           <div className="h-12 w-12 overflow-hidden rounded-full">
             <img

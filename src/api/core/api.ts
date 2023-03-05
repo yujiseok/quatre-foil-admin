@@ -14,15 +14,15 @@ const axiosConfig: AxiosRequestConfig = {
 export const client = axios.create(axiosConfig);
 
 client.interceptors.request.use((config) => {
-  const { accessToken } = JSON.parse(
-    JSON.parse(localStorage.getItem("persist:root") as string).auth,
-  );
+  // const { accessToken } = JSON.parse(
+  //   JSON.parse(localStorage.getItem("persist:root") as string).auth,
+  // );
 
-  if (!config.headers) return config;
+  // if (!config.headers) return config;
 
-  if (accessToken !== null) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
+  // if (accessToken !== null) {
+  //   config.headers.Authorization = `Bearer ${accessToken}`;
+  // }
 
   return config;
 });

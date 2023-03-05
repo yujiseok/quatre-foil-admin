@@ -1,9 +1,11 @@
 import type { Dispatch, SetStateAction } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addProduct } from "api";
+import type { IProductDetail } from "api";
+import { editProduct, deleteProduct, addProduct } from "api";
 
 const schema = z.object({
   title: z.string(),
@@ -14,7 +16,13 @@ const schema = z.object({
 });
 export type IProduct = z.infer<typeof schema>;
 
-const ProductForm = () => {
+const ProductForm = ({
+  product,
+  isFetching,
+}: {
+  product?: IProductDetail;
+  isFetching?: boolean;
+}) => {
   const [thumbnailBase64, setThumbnailBase64] = useState("");
   const [photoBase64, setPhotoBase64] = useState("");
 
@@ -40,22 +48,53 @@ const ProductForm = () => {
       title,
       Number(price),
       description,
-      [tags],
+      tags.split(","),
       thumbnailBase64,
       photoBase64,
     );
 
     console.log(res);
   };
+  const editSubmit = async (data: IProduct) => {
+    const { title, price, description, tags } = data;
+
+    const res = await editProduct(
+      product?.id as string,
+      title,
+      Number(price),
+      description,
+      tags.split(","),
+      // thumbnailBase64,
+      // photoBase64,
+    );
+
+    console.log(res);
+  };
+
+  // useEffect(() => {
+  //   if (isFetching === false && product) {
+  //     setThumbnailBase64(product?.thumbnail as string);
+  //     setPhotoBase64(product?.photo as string);
+  //   }
+  // }, [product, isFetching]);
+
+  // console.log(thumbnailBase64);
+
+  if (isFetching) return <div>loading...</div>;
 
   return (
-    <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="mt-4"
+      onSubmit={product ? handleSubmit(editSubmit) : handleSubmit(onSubmit)}
+    >
       <div className="mb-4 flex flex-col">
         <label htmlFor="title">제품 이름</label>
         <input
           type="text"
           className="rounded border border-gray-400 p-2 focus:outline-rose-300"
-          {...register("title")}
+          {...register("title", {
+            value: `${product ? `${product.title}` : ""}`,
+          })}
         />
       </div>
       <div className="mb-4 flex flex-col">
@@ -73,13 +112,17 @@ const ProductForm = () => {
         <input
           type="text"
           className="rounded border border-gray-400 p-2 focus:outline-rose-300"
-          {...register("price")}
+          {...register("price", {
+            value: `${product ? `${product.price}` : ""}`,
+          })}
         />
       </div>
       <div className="mb-4 flex flex-col">
         <label htmlFor="description">제품 상세 설명</label>
         <textarea
-          {...register("description")}
+          {...register("description", {
+            value: `${product ? `${product.description}` : ""}`,
+          })}
           className="resize-none rounded border border-gray-400 p-2 focus:outline-rose-300"
         />
       </div>
@@ -99,16 +142,25 @@ const ProductForm = () => {
         <input
           type="text"
           className="rounded border border-gray-400 p-2 focus:outline-rose-300"
-          {...register("tags")}
+          {...register("tags", {
+            value: `${!isFetching && product ? `${product?.tags}` : ""}`,
+          })}
         />
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="cursor-pointer rounded border border-rose-300 py-2 px-4"
+        className="mr-4 cursor-pointer rounded border border-rose-300 py-2 px-4"
       >
-        등록
+        {product ? "수정" : "등록"}
+      </button>
+      <button
+        type="button"
+        className="cursor-pointer rounded border bg-gray-400 py-2 px-4 text-white"
+        onClick={() => deleteProduct(product?.id as string)}
+      >
+        삭제
       </button>
     </form>
   );

@@ -5,7 +5,7 @@ import { client } from "./core/api";
 // 제품
 
 // 제품 목록 조회
-export interface IProduct {
+export interface Product {
   id: string; // 제품 ID
   title: string; // 제품 이름
   price: number; // 제품 가격
@@ -16,13 +16,25 @@ export interface IProduct {
 }
 
 export const getProducts = async () => {
-  const { data } = await client.get<IProduct[]>("/products");
+  const { data } = await client.get<Product[]>("/products");
 
   return data;
 };
 
+export interface IProductDetail {
+  // 제품의 상세 내용
+  id: string; // 제품 ID
+  title: string; // 제품 이름
+  price: number; // 제품 가격
+  description: string; // 제품 상세 설명
+  tags: string[]; // 제품 태그
+  thumbnail: string | null; // 제품 썸네일 이미지(URL)
+  photo: string | null; // 제품 상세 이미지(URL)
+  isSoldOut: boolean; // 제품 매진 여부
+}
+
 export const getProduct = async (id: string) => {
-  const { data } = await client.get<IProduct>(`/products/${id}`);
+  const { data } = await client.get<IProductDetail>(`/products/${id}`);
 
   return data;
 };
@@ -88,7 +100,7 @@ interface EditFunc {
     photoBase64?: string,
   ): AxiosPromise<AddProductResponse>;
 }
-interface AddProductResponse {
+export interface AddProductResponse {
   // 추가한 제품의 상세 내용
   id: string; // 제품 ID
   title: string; // 제품 이름
