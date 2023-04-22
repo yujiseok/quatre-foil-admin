@@ -79,16 +79,16 @@ export const getTransactionDetail = async () => {
 
 // 제품 추가
 
-interface AddFunc {
-  (
-    title?: string,
-    price?: number,
-    description?: string,
-    tags?: string[],
-    thumbnailBase64?: string,
-    photoBase64?: string,
-  ): AxiosPromise<AddProductResponse>;
-}
+// interface AddFunc {
+//   (
+//     title?: string,
+//     price?: number,
+//     description?: string,
+//     tags?: string[],
+//     thumbnailBase64?: string,
+//     photoBase64?: string,
+//   ): AxiosPromise<AddProductResponse>;
+// }
 interface EditFunc {
   (
     id?: string,
@@ -111,50 +111,30 @@ export interface AddProductResponse {
   photo: string | null; // 제품 상세 이미지(URL)
   isSoldOut: boolean; // 제품 매진 여부
 }
-export const addProduct: AddFunc = async (
-  title,
-  price,
-  description,
-  tags,
-  thumbnailBase64,
-  photoBase64,
-) => {
+interface AddProductParams {
+  title: string;
+  price: number;
+  description: string;
+  tags: string[];
+  thumbnailBase64: string;
+  photoBase64: string;
+}
+
+export const addProduct = async (params: AddProductParams) => {
   const { data } = await client({
     method: "post",
     url: "/products",
-    data: {
-      title,
-      price,
-      description,
-      tags,
-      thumbnailBase64,
-      photoBase64,
-    },
+    data: params,
   });
 
   return data;
 };
 
-export const editProduct: EditFunc = async (
-  id,
-  title,
-  price,
-  description,
-  tags,
-  thumbnailBase64,
-  photoBase64,
-) => {
+export const editProduct = async (id: string, params: AddProductParams) => {
   const { data } = await client({
     method: "put",
     url: `/products/${id}`,
-    data: {
-      title,
-      price,
-      description,
-      tags,
-      thumbnailBase64,
-      photoBase64,
-    },
+    data: params,
   });
 
   return data;
