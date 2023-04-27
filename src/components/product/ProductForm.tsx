@@ -1,20 +1,9 @@
-import type { Dispatch, SetStateAction } from "react";
-import { useEffect, useState } from "react";
-
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { IProductDetail } from "api";
 import { editProduct, deleteProduct, addProduct } from "api";
-
-const schema = z.object({
-  title: z.string(),
-  price: z.string(),
-  description: z.string(),
-  tags: z.string(),
-  // thumbnailBase64: z.string(),
-});
-export type IProduct = z.infer<typeof schema>;
+import { toBase64 } from "lib/utils/toBase64";
+import type { IProduct } from "lib/hooks/useProductForm";
+import useProductForm from "lib/hooks/useProductForm";
+import { useNavigate } from "react-router-dom";
 
 const ProductForm = ({
   product,
@@ -23,70 +12,48 @@ const ProductForm = ({
   product?: IProductDetail;
   isFetching?: boolean;
 }) => {
-  const [thumbnailBase64, setThumbnailBase64] = useState("");
-  const [photoBase64, setPhotoBase64] = useState("");
-
-  const toBase64 = (file: File, setState: Dispatch<SetStateAction<string>>) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => setState(reader.result as string);
-    }
-  };
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm<IProduct>({
-    resolver: zodResolver(schema),
-  });
+  const { preview, handleSubmit, isSubmitting, register } = useProductForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: IProduct) => {
-    const { title, price, description, tags } = data;
-
-    const res = await addProduct(
-      title,
-      Number(price),
-      description,
-      tags.split(","),
-      thumbnailBase64,
-      photoBase64,
-    );
-
-    console.log(res);
+    const newData = {
+      ...data,
+      price: Number(data.price),
+      tags: data.tags.split(","),
+      thumbnailBase64: (await toBase64(data.thumbnailBase64[0])) as string,
+      photoBase64: (await toBase64(data.photoBase64[0])) as string,
+    };
+    const res = product
+      ? await editProduct(product.id, newData)
+      : await addProduct(newData);
+    if (res.id) {
+      navigate("/");
+    }
   };
-  const editSubmit = async (data: IProduct) => {
-    const { title, price, description, tags } = data;
-
-    const res = await editProduct(
-      product?.id as string,
-      title,
-      Number(price),
-      description,
-      tags.split(","),
-      // thumbnailBase64,
-      // photoBase64,
-    );
-
-    console.log(res);
-  };
-
-  // useEffect(() => {
-  //   if (isFetching === false && product) {
-  //     setThumbnailBase64(product?.thumbnail as string);
-  //     setPhotoBase64(product?.photo as string);
-  //   }
-  // }, [product, isFetching]);
-
-  // console.log(thumbnailBase64);
 
   if (isFetching) return <div>loading...</div>;
 
   return (
-    <form
-      className="mt-4"
-      onSubmit={product ? handleSubmit(editSubmit) : handleSubmit(onSubmit)}
-    >
+    <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
+      {product?.thumbnail ? (
+        <div className="mx-auto h-72 w-72 border">
+          <label htmlFor="thumbnailBase64">
+            <img
+              src={preview || product.thumbnail}
+              alt={product.title}
+              className="h-full w-full cursor-pointer"
+            />
+          </label>
+
+          <input
+            type="file"
+            id="thumbnailBase64"
+            {...register("thumbnailBase64")}
+            className="hidden"
+          />
+        </div>
+      ) : null}
+
       <div className="mb-4 flex flex-col">
         <label htmlFor="title">제품 이름</label>
         <input
@@ -98,14 +65,8 @@ const ProductForm = ({
         />
       </div>
       <div className="mb-4 flex flex-col">
-        <label htmlFor="thumbnailBase64">제품 썸네일</label>
-        <input
-          type="file"
-          onChange={(e) => {
-            if (!e.target.files) return;
-            toBase64(e.target.files[0], setThumbnailBase64);
-          }}
-        />
+        {/* <label htmlFor="thumbnailBase64">제품 썸네일</label>
+        <input type="file" {...register("thumbnailBase64")} /> */}
       </div>
       <div className="mb-4 flex flex-col">
         <label htmlFor="price">가격</label>
@@ -128,14 +89,7 @@ const ProductForm = ({
       </div>
       <div className="mb-4 flex flex-col">
         <label htmlFor="photoBase64">제품 상세 사진</label>
-        <input
-          type="file"
-          id="photoBase64"
-          onChange={(e) => {
-            if (!e.target.files) return;
-            toBase64(e.target.files[0], setPhotoBase64);
-          }}
-        />
+        <input type="file" {...register("photoBase64")} />
       </div>
       <div className="mb-4 flex flex-col">
         <label htmlFor="tags">제품 태그</label>
