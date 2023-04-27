@@ -5,6 +5,7 @@ import ProductDetail from "@pages/ProductDetail";
 import ProductList from "@pages/ProductsList";
 import SignUp from "@pages/SignUp";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SalesList from "@pages/SalesList";
 
 const Router = () => {
   return (
@@ -16,6 +17,7 @@ const Router = () => {
           <Route path="/" index element={<ProductList />} />
           <Route path="product" index element={<Product />} />
           <Route path="product/:id" index element={<ProductDetail />} />
+          <Route path="sales/detail" index element={<SalesList />} />
         </Route>
       </Routes>
     </BrowserRouter>
