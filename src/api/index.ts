@@ -39,7 +39,7 @@ export const getProduct = async (id: string) => {
   return data;
 };
 // 거래 내역 조회
-interface TransactionDetail {
+export interface TransactionDetail {
   // 거래 내역 정보
   detailId: string; // 거래 내역 ID
   user: {
@@ -147,5 +147,14 @@ export const deleteProduct = async (id: string) => {
     url: `/products/${id}`,
   });
 
+  return res;
+};
+
+// 전체 거래(판매) 내역
+export const getSalesList = async () => {
+  const res = await client({
+    method: "GET",
+    url: "/products/transactions/all",
+  });
   return res;
 };
