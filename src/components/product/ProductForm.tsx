@@ -3,6 +3,7 @@ import { editProduct, deleteProduct, addProduct } from "api";
 import { toBase64 } from "lib/utils/toBase64";
 import type { IProduct } from "lib/hooks/useProductForm";
 import useProductForm from "lib/hooks/useProductForm";
+import { useNavigate } from "react-router-dom";
 
 const ProductForm = ({
   product,
@@ -12,6 +13,7 @@ const ProductForm = ({
   isFetching?: boolean;
 }) => {
   const { preview, handleSubmit, isSubmitting, register } = useProductForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: IProduct) => {
     const newData = {
@@ -24,6 +26,9 @@ const ProductForm = ({
     const res = product
       ? await editProduct(product.id, newData)
       : await addProduct(newData);
+    if (res.id) {
+      navigate("/");
+    }
   };
 
   if (isFetching) return <div>loading...</div>;
@@ -31,7 +36,22 @@ const ProductForm = ({
   return (
     <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
       {product?.thumbnail ? (
-        <img src={preview || product.thumbnail} alt={product.title} />
+        <div className="mx-auto h-72 w-72 border">
+          <label htmlFor="thumbnailBase64">
+            <img
+              src={preview || product.thumbnail}
+              alt={product.title}
+              className="h-full w-full cursor-pointer"
+            />
+          </label>
+
+          <input
+            type="file"
+            id="thumbnailBase64"
+            {...register("thumbnailBase64")}
+            className="hidden"
+          />
+        </div>
       ) : null}
 
       <div className="mb-4 flex flex-col">
@@ -45,8 +65,8 @@ const ProductForm = ({
         />
       </div>
       <div className="mb-4 flex flex-col">
-        <label htmlFor="thumbnailBase64">제품 썸네일</label>
-        <input type="file" {...register("thumbnailBase64")} />
+        {/* <label htmlFor="thumbnailBase64">제품 썸네일</label>
+        <input type="file" {...register("thumbnailBase64")} /> */}
       </div>
       <div className="mb-4 flex flex-col">
         <label htmlFor="price">가격</label>
