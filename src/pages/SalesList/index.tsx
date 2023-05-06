@@ -1,5 +1,4 @@
 import type { TransactionDetail } from "api";
-import { changeSalesStatus } from "api";
 import useChangeStatusMutate from "lib/hooks/useChangeStatusMutate";
 import useGetSalesListQuery from "lib/hooks/useGetSalesListQuery";
 
@@ -11,7 +10,7 @@ const SalesList = () => {
     <div>
       <h4 className="border-b-2 pb-3 text-xl font-semibold">판매 내역</h4>
       <ul className="mt-4">
-        {salesList?.data.map((item: TransactionDetail) => (
+        {salesList.map((item: TransactionDetail) => (
           <li
             key={item.timePaid}
             className="mb-3 flex justify-between border-2 px-3 py-4"

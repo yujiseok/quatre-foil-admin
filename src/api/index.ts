@@ -156,7 +156,7 @@ export const getSalesList = async () => {
     method: "GET",
     url: "/products/transactions/all",
   });
-  return res;
+  return res.data;
 };
 
 interface RequsetBody {
