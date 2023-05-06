@@ -13,7 +13,9 @@ const schema = z.object({
 });
 export type IProduct = z.infer<typeof schema>;
 const useProductForm = () => {
-  const [preview, setPreview] = useState("");
+  const [preview, setPreview] = useState(
+    "https://skg1891.cafe24.com/wp-content/uploads/2013/11/dummy-image-square.jpg",
+  );
 
   const {
     handleSubmit,
