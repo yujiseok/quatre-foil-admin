@@ -1,34 +1,10 @@
 import ProductForm from "@components/product/ProductForm";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProduct } from "api";
-import type { IProductDetail } from "api";
-import { AxiosError } from "axios";
-
-import type { Dispatch, SetStateAction } from "react";
-import { useRef, useState } from "react";
+import useProductQuery from "lib/hooks/useProductQuery";
 import { useParams } from "react-router-dom";
 
 const ProductDetail = () => {
-  const [thumbnailBase64, setThumbnailBase64] = useState("");
-  const [photoBase64, setPhotoBase64] = useState("");
   const { id } = useParams();
-  const queryClient = useQueryClient();
-  const {
-    data: product,
-    isError,
-    isLoading,
-    isFetching,
-    error,
-  } = useQuery<IProductDetail>({
-    queryKey: ["product"],
-    queryFn: () => getProduct(id as string),
-  });
-
-  if (isError) {
-    if (error instanceof AxiosError) console.log(error.response?.data);
-  }
-
-  console.log(isFetching);
+  const { product, isFetching } = useProductQuery(id as string);
 
   return (
     <div>
