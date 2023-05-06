@@ -1,11 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSalesList } from "api";
-import React from "react";
+import type { TransactionDetail } from "api";
 
 const useGetSalesListQuery = () => {
   const { data: salesList } = useQuery({
     queryKey: ["salesList"],
     queryFn: getSalesList,
+    select: (data) =>
+      data.sort(
+        (a: TransactionDetail, b: TransactionDetail) =>
+          new Date(b.timePaid).getDate() - new Date(a.timePaid).getDate(),
+      ),
   });
 
   return { salesList };
