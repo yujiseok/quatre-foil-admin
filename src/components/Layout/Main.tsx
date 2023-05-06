@@ -5,12 +5,12 @@ import Aside from "./Aside";
 interface Props {}
 const Main = (props: Props) => {
   return (
-    <main className="mx-auto h-full max-w-7xl px-4">
+    <main className="mx-auto h-full max-w-7xl px-4 pb-8">
       <header className="mt-4 flex h-14 items-center justify-between">
         <Heading>
           <Link to="/">QUATRE FOIL Admin</Link>
         </Heading>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <div className="h-12 w-12 overflow-hidden rounded-full">
             <img
               className="h-full w-full"
@@ -19,7 +19,7 @@ const Main = (props: Props) => {
             />
           </div>
           <div>유저이름</div>
-        </div>
+        </div> */}
       </header>
       <div className="mt-4 flex gap-4">
         <Aside />

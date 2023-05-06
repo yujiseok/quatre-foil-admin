@@ -4,6 +4,8 @@ import { toBase64 } from "lib/utils/toBase64";
 import type { IProduct } from "lib/hooks/useProductForm";
 import useProductForm from "lib/hooks/useProductForm";
 import { useNavigate } from "react-router-dom";
+import Spinner from "@components/Spinner";
+import { useMutation } from "@tanstack/react-query";
 
 const ProductForm = ({
   product,
@@ -27,32 +29,46 @@ const ProductForm = ({
       ? await editProduct(product.id, newData)
       : await addProduct(newData);
     if (res.id) {
+      alert("정상적으로 추가 되었습니다.");
       navigate("/");
     }
   };
 
-  if (isFetching) return <div>loading...</div>;
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => deleteProduct(id),
+    onSuccess: () => {
+      alert("정상적으로 삭제 되었습니다.");
+      navigate("/");
+    },
+  });
 
+  if (isFetching) return <Spinner />;
   return (
     <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
-      {product?.thumbnail ? (
-        <div className="mx-auto h-72 w-72 border">
-          <label htmlFor="thumbnailBase64">
+      <div className="mx-auto h-72 w-72 border">
+        <label htmlFor="thumbnailBase64">
+          {product?.thumbnail ? (
             <img
-              src={preview || product.thumbnail}
+              src={product.thumbnail}
               alt={product.title}
               className="h-full w-full cursor-pointer"
             />
-          </label>
+          ) : (
+            <img
+              src={preview}
+              alt="preview"
+              className="h-full w-full cursor-pointer"
+            />
+          )}
+        </label>
 
-          <input
-            type="file"
-            id="thumbnailBase64"
-            {...register("thumbnailBase64")}
-            className="hidden"
-          />
-        </div>
-      ) : null}
+        <input
+          type="file"
+          id="thumbnailBase64"
+          {...register("thumbnailBase64")}
+          className="hidden"
+        />
+      </div>
 
       <div className="mb-4 flex flex-col">
         <label htmlFor="title">제품 이름</label>
@@ -64,10 +80,10 @@ const ProductForm = ({
           })}
         />
       </div>
-      <div className="mb-4 flex flex-col">
-        {/* <label htmlFor="thumbnailBase64">제품 썸네일</label>
-        <input type="file" {...register("thumbnailBase64")} /> */}
-      </div>
+      {/* <div className="mb-4 flex flex-col">
+        <label htmlFor="thumbnailBase64">제품 썸네일</label>
+        <input type="file" {...register("thumbnailBase64")} />
+      </div> */}
       <div className="mb-4 flex flex-col">
         <label htmlFor="price">가격</label>
         <input
@@ -104,15 +120,15 @@ const ProductForm = ({
 
       <button
         type="submit"
-        disabled={isSubmitting}
-        className="mr-4 cursor-pointer rounded border border-rose-300 py-2 px-4"
+        // disabled={isSubmitting}
+        className="mr-4 cursor-pointer rounded border border-rose-300 px-4 py-2"
       >
         {product ? "수정" : "등록"}
       </button>
       <button
         type="button"
-        className="cursor-pointer rounded border bg-gray-400 py-2 px-4 text-white"
-        onClick={() => deleteProduct(product?.id as string)}
+        className="cursor-pointer rounded border bg-gray-400 px-4 py-2 text-white"
+        onClick={() => deleteMutation.mutate(product?.id as string)}
       >
         삭제
       </button>
