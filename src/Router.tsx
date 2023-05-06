@@ -27,7 +27,15 @@ const Router = () => {
             }
           />
           <Route path="product" index element={<Product />} />
-          <Route path="product/:id" index element={<ProductDetail />} />
+          <Route
+            path="product/:id"
+            index
+            element={
+              <Suspense fallback={<Spinner />}>
+                <ProductDetail />
+              </Suspense>
+            }
+          />
           <Route
             path="sales/detail"
             element={
