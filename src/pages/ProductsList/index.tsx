@@ -43,8 +43,15 @@ const ProductsList = () => {
         {Array(totalPage)
           .fill(null)
           .map((_, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <button type="button" key={i} onClick={() => handleClick(i + 1)}>
+            <button
+              type="button"
+              // eslint-disable-next-line react/no-array-index-key
+              key={i}
+              onClick={() => handleClick(i + 1)}
+              className={`rounded border-2 px-2 py-1 ${
+                Number(page) === i + 1 ? "border-rose-200" : ""
+              }`}
+            >
               {i + 1}
             </button>
           ))}

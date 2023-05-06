@@ -5,7 +5,7 @@ import Aside from "./Aside";
 interface Props {}
 const Main = (props: Props) => {
   return (
-    <main className="mx-auto h-full max-w-7xl px-4">
+    <main className="mx-auto h-full max-w-7xl px-4 pb-8">
       <header className="mt-4 flex h-14 items-center justify-between">
         <Heading>
           <Link to="/">QUATRE FOIL Admin</Link>
