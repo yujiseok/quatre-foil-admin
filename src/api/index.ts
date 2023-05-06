@@ -158,3 +158,23 @@ export const getSalesList = async () => {
   });
   return res;
 };
+
+interface RequsetBody {
+  isCanceled?: boolean; // 거래 취소 여부 (사용자의 '제품 거래(구매) 취소' 상태와 같습니다)
+  done?: boolean; // 거래 완료 여부 (사용자의 '제품 거래(구매) 확정' 상태와 같습니다)
+}
+
+// 거래(판매) 내역 완료/취소 및 해제
+export const changeSalesStatus = async (
+  id: string,
+  isCanceled?: boolean,
+  done?: boolean,
+) => {
+  const res = await client({
+    method: "PUT",
+    url: `/products/transactions/${id}`,
+    data: { isCanceled, done },
+  });
+  console.log(res);
+  return res;
+};

@@ -1,9 +1,12 @@
 import type { TransactionDetail } from "api";
+import { changeSalesStatus } from "api";
+import useChangeStatusMutate from "lib/hooks/useChangeStatusMutate";
 import useGetSalesListQuery from "lib/hooks/useGetSalesListQuery";
 
 const SalesList = () => {
   const { salesList } = useGetSalesListQuery();
-  console.log(salesList?.data);
+  const { changeStatusMutate } = useChangeStatusMutate();
+
   return (
     <div>
       <h4 className="border-b-2 pb-3 text-xl font-semibold">판매 내역</h4>
@@ -30,7 +33,11 @@ const SalesList = () => {
             </div>
             <div className="flex flex-col justify-center">
               {!item.isCanceled && !item.done ? (
-                <button type="button" className="cursor-pointer border p-3">
+                <button
+                  type="button"
+                  className="cursor-pointer border p-3"
+                  onClick={() => changeStatusMutate(item.detailId)}
+                >
                   거래 취소
                 </button>
               ) : null}
