@@ -31,10 +31,22 @@ const SalesList = () => {
                   <p className="text-sm text-slate-500">
                     {new Date(item.timePaid).toLocaleDateString()} 결제
                   </p>
-                  <p>금액 {item.product.price.toLocaleString()}원</p>
-                  <p>결제 수단 {item.account.bankName}</p>
-                  <p>취소 여부 {item.isCanceled ? "o" : "x"}</p>
-                  <p>확정 여부 {item.done ? "o" : "x"}</p>
+                  <p>
+                    <span className="font-semibold">금액</span>{" "}
+                    {item.product.price.toLocaleString()}원
+                  </p>
+                  <p>
+                    <span className="font-semibold">결제 수단</span>{" "}
+                    {item.account.bankName}
+                  </p>
+                  <p>
+                    <span className="font-semibold">취소 여부</span>{" "}
+                    {item.isCanceled ? "⭕️" : "❌"}
+                  </p>
+                  <p>
+                    <span className="font-semibold">확정 여부</span>{" "}
+                    {item.done ? "⭕️" : "❌"}
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col justify-center">
@@ -62,8 +74,15 @@ const SalesList = () => {
         {Array(totalPage)
           .fill(null)
           .map((_, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <button type="button" key={i} onClick={() => handleClick(i + 1)}>
+            <button
+              type="button"
+              // eslint-disable-next-line react/no-array-index-key
+              key={i}
+              onClick={() => handleClick(i + 1)}
+              className={`rounded border-2 px-2 py-1 ${
+                Number(page) === i + 1 ? "border-rose-200" : ""
+              }`}
+            >
               {i + 1}
             </button>
           ))}
