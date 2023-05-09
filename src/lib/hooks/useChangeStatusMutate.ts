@@ -9,6 +9,7 @@ const useChangeStatusMutate = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries();
+        alert("성공적으로 거래가 취소되었습니다.");
       },
     },
   );
