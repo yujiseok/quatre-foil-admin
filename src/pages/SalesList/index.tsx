@@ -53,7 +53,7 @@ const SalesList = () => {
                 {!item.isCanceled && !item.done ? (
                   <button
                     type="button"
-                    className="cursor-pointer border p-3"
+                    className="cursor-pointer rounded-md border p-3 hover:border-rose-200 hover:bg-rose-200 hover:text-white"
                     onClick={() => changeStatusMutate(item.detailId)}
                   >
                     거래 취소
